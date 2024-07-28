@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Word Formatter</title>
     <script>
         let livePreviewEnabled = {
@@ -12,6 +13,14 @@
             commaToLine: false
         };
 
+        function updateTimeAndDate() {
+            const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const now = new Date();
+            document.getElementById('time').textContent = now.toLocaleTimeString('en-US', options);
+            document.getElementById('date').textContent = now.toLocaleDateString('en-GB');
+        }
+        setInterval(updateTimeAndDate, 1000); // Update every second
+        window.onload = updateTimeAndDate; // Initialize on load
         function formatWords() {
             const input = document.getElementById('input').value;
             const words = input.split('\n').map(word => word.trim()).filter(word => word);
@@ -154,7 +163,9 @@
 </head>
 
 <body>
-    <h1>Word Formatter</h1>
+    
+    
+    <h1>Wordy Shortcuts</h1>
 
     <!-- Section: Basic Formatting & Quoting -->
     <div>
@@ -246,6 +257,13 @@
         <p id="wordCount2">Word Count: 0</p>
     </div>
 
+    <footer>
+        <p>&copy; 2024 Sriyans G</p>
+        <p>
+            Github @:
+            <a href="https://github.com/sriyansg" target="_blank">SriyansG</a>
+        </p>
+    </footer>
 
 </body>
 
