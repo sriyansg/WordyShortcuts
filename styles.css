@@ -1,47 +1,41 @@
-/* styles.css */
-
-/* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
 
-
 footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f8f8; /* Optional: adds a background color */
-            border-top: 1px solid #ddd; /* Optional: adds a top border */
-        }
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+}
 
-        footer p {
-            margin: 5px 0;
-        }
+footer p {
+    margin: 5px 0;
+}
 
-        footer a {
-            color: #000; /* Optional: sets the color of the link */
-            text-decoration: none; /* Optional: removes underline from the link */
-        }
+footer a {
+    color: #000;
+    text-decoration: none;
+}
 
-        footer a:hover {
-            text-decoration: underline; /* Optional: underline on hover */
-        }
-/* Global Styles */
+footer a:hover {
+    text-decoration: underline;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #1c1c1c; /* Dark grey background */
+    background-color: #1c1c1c;
     color: #ecf0f1;
-    padding-top: 50px; /* Adjust for navbar height */
+    padding-top: 50px;
     cursor: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEwIDFMMTIuMTggNi41TDkgOEw2LjgxIDYuNTFMMTAgMVpNMTAgMTlMMTEuMTggMTcuNUwxMCAxM0w4LjgyIDE3LjVMNi44MSAxOSBMMTAgMTlaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==') 10 10, auto;
 }
 
-/* Main Content */
 .main-content {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Headings */
 h1, h2 {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 600;
@@ -62,26 +56,24 @@ h2 {
     text-align: center;
 }
 
-/* Containers */
 div {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: #2c2c2c; /* Slightly lighter dark grey */
+    background: #2c2c2c;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     opacity: 0;
     animation: fadeIn 1s forwards 0.5s;
 }
 
-/* Textarea */
 textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
     border: 1px solid #7f8c8d;
-    background-color: #3c3c3c; /* Matching dark tone */
+    background-color: #3c3c3c;
     color: #ecf0f1;
     font-size: 1rem;
     font-family: 'Roboto', sans-serif;
@@ -90,12 +82,11 @@ textarea {
 }
 
 textarea:focus {
-    border-color: #e67e22; /* Orange border on focus */
+    border-color: #e67e22;
 }
 
-/* Buttons */
 button {
-    background-color: #e67e22; /* Orange button color */
+    background-color: #e67e22;
     color: #ecf0f1;
     border: none;
     padding: 10px 20px;
@@ -107,11 +98,10 @@ button {
 }
 
 button:hover {
-    background-color: #d35400; /* Darker orange on hover */
+    background-color: #d35400;
     transform: translateY(-2px);
 }
 
-/* Labels and Inputs */
 label, input[type="text"], input[type="number"], input[type="radio"], input[type="checkbox"] {
     font-size: 1rem;
     color: #ecf0f1;
@@ -135,7 +125,6 @@ input[type="radio"], input[type="checkbox"] {
     vertical-align: middle;
 }
 
-/* Outputs */
 #output, #commaOutput, #secondOutput {
     padding: 10px;
     background-color: #1c1c1c;
@@ -163,14 +152,12 @@ p {
     color: #bdc3c7;
 }
 
-/* Live Preview Status */
 #livePreviewStatus-basic, #livePreviewStatus-commaToLine, #livePreviewStatus-transform {
     font-size: 0.9rem;
     font-style: italic;
     color: #e74c3c;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -188,27 +175,7 @@ p {
 ::-webkit-scrollbar-thumb:hover {
     background: #d35400;
 }
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f8f8; /* Optional: adds a background color */
-    border-top: 1px solid #ddd; /* Optional: adds a top border */
-}
 
-footer p {
-    margin: 5px 0;
-}
-
-footer a {
-    color: #000; /* Optional: sets the color of the link */
-    text-decoration: none; /* Optional: removes underline from the link */
-}
-
-footer a:hover {
-    text-decoration: underline; /* Optional: underline on hover */
-}
-
-/* Animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
