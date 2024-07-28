@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Formatter</title>
+    <script>
+        let livePreviewEnabled = {
+            basic: false,
+            transform: false,
+            commaToLine: false
+        };
+
+        function formatWords() {
+            const input = document.getElementById('input').value;
+            const words = input.split('\n').map(word => word.trim()).filter(word => word);
+            const quoteType = document.querySelector('input[name="quoteType"]:checked').value;
+            const separator = document.getElementById('separator').value || ',';
+
+            let formattedWords;
+            if (quoteType === 'single') {
+                formattedWords = words.map(word => `'${word}'`).join(separator);
+            } else if (quoteType === 'double') {
+                formattedWords = words.map(word => `"${word}"`).join(separator);
+            } else {
+                formattedWords = words.join(separator);
+            }
+
+            document.getElementById('output').textContent = formattedWords;
+            updateWordCount('output', 'wordCount1');
+        }
+
+        function toggleLivePreview(section) {
+            livePreviewEnabled[section] = !livePreviewEnabled[section];
+            document.getElementById(`livePreviewStatus-${section}`).textContent = livePreviewEnabled[section] ? 'Live Preview: ON' : 'Live Preview: OFF';
+            if (!livePreviewEnabled[section]) {
+                document.getElementById(`output-${section}`).textContent = '';
+            }
+        }
+
+        function updatePreview(section, callback) {
+            if (livePreviewEnabled[section]) {
+                callback();
+            }
+        }
+
+        function performActions() {
+            const input = document.getElementById('secondInput').value;
+            const words = input.split('\n').map(word => word.trim()).filter(word => word);
+            let result = words.slice();
+
+            // Case Conversion
+            if (document.getElementById('caseUpper').checked) {
+                result = result.map(word => word.toUpperCase());
+            }
+            if (document.getElementById('caseLower').checked) {
+                result = result.map(word => word.toLowerCase());
+            }
+            if (document.getElementById('caseTitle').checked) {
+                result = result.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+            }
+
+            // Sorting
+            if (document.getElementById('sortAsc').checked) {
+                result.sort();
+            }
+            if (document.getElementById('sortDesc').checked) {
+                result.sort().reverse();
+            }
+
+            // Prefix/Suffix
+            const prefix = document.getElementById('prefix').value || '';
+            const suffix = document.getElementById('suffix').value || '';
+            result = result.map(word => prefix + word + suffix);
+
+            if (document.getElementById('removeDuplicates').checked) {
+                result = [...new Set(result)];
+            }
+
+            if (document.getElementById('findReplace').checked) {
+                const findText = document.getElementById('findText').value;
+                const replaceText = document.getElementById('replaceText').value;
+                result = result.map(word => word.replace(new RegExp(findText, 'g'), replaceText));
+            }
+
+            // Trim Text
+            if (document.getElementById('trimText').checked) {
+                const trimLength = parseInt(document.getElementById('trimLength').value, 10);
+                const trimDirection = document.querySelector('input[name="trimDirection"]:checked').value;
+                if (!isNaN(trimLength) && trimLength > 0) {
+                    result = result.map(word => {
+                        if (trimDirection === 'start') {
+                            return word.substring(0, trimLength);
+                        } else if (trimDirection === 'end') {
+                            return word.length > trimLength ? word.slice(-trimLength) : word;
+                        }
+                        return word;
+                    });
+                }
+            }
+
+            document.getElementById('secondOutput').textContent = result.join('\n');
+            updateWordCount('secondOutput', 'wordCount2');
+        }
+
+        function commaToLineSeparated() {
+            const input = document.getElementById('commaInput').value;
+            const customChar = document.getElementById('customQuote').value;
+            const quoteType = document.querySelector('input[name="quoteChoice"]:checked').value;
+
+            let regex;
+
+            if (quoteType === 'single') {
+                regex = /,\s*'|'/g;
+            } else if (quoteType === 'double') {
+                regex = /,\s*"|"/g;
+            } else if (quoteType === 'custom' && customChar) {
+                regex = new RegExp(customChar + '\\s*|' + customChar, 'g');
+            } else {
+                regex = /,\s*/;
+            }
+
+            const output = input.split(regex)
+                .filter(word => word.trim() !== '') // fixx for empty strings on newline
+                .map(word => word.trim())
+                .join('\n');
+
+            document.getElementById('commaOutput').textContent = output.trim();
+            updateWordCount('commaOutput', 'wordCount3');
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy: ' + err);
+            });
+        }
+
+        function updateWordCount(outputId, wordCountId) {
+            const text = document.getElementById(outputId).textContent;
+            const wordCount = text ? text.split(/\s+/).length : 0;
+            document.getElementById(wordCountId).textContent = `Word Count: ${wordCount}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('input').addEventListener('input', () => updatePreview('basic', formatWords));
+            document.getElementById('secondInput').addEventListener('input', () => updatePreview('transform', performActions));
+            document.getElementById('commaInput').addEventListener('input', () => updatePreview('commaToLine', commaToLineSeparated));
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Word Formatter</h1>
+
+    <!-- Section: Basic Formatting & Quoting -->
+    <div>
+        <h2>Line to Comma - Quote</h2>
+        <textarea id="input" rows="10" cols="30" placeholder="Enter words here..."></textarea><br>
+        <div>
+            <label><input type="radio" name="quoteType" value="single" checked> Single Quote</label>
+            <label><input type="radio" name="quoteType" value="double"> Double Quote</label>
+            <label><input type="radio" name="quoteType" value="none"> No Quote</label>
+        </div>
+        <div>
+            <label for="separator">Separator:</label>
+            <input type="text" id="separator" placeholder="Enter separator, default is comma"
+                oninput="updatePreview('basic', formatWords)">
+        </div>
+        <button onclick="formatWords()">Format Words</button>
+        <button onclick="copyToClipboard('output')">Copy Output</button>
+        <button onclick="toggleLivePreview('basic')">Toggle Live Preview</button>
+        <p id="livePreviewStatus-basic">Live Preview: OFF</p>
+        <div id="output"></div>
+        <p id="wordCount1">Word Count: 0</p>
+    </div>
+
+
+    <!-- Section: Comma to Line-Separated -->
+    <div>
+        <h2>Comma to Line-Separated</h2>
+        <textarea id="commaInput" rows="10" cols="30" placeholder="Enter comma-separated text here..."></textarea><br>
+        <div>
+            <label><input type="radio" name="quoteChoice" value="none" checked> None</label>
+            <label><input type="radio" name="quoteChoice" value="single"> Single Quote</label>
+            <label><input type="radio" name="quoteChoice" value="double"> Double Quote</label>
+            <label><input type="radio" name="quoteChoice" value="custom"> Custom Character:</label>
+            <input type="text" id="customQuote" maxlength="1" size="1">
+        </div>
+        <button onclick="commaToLineSeparated()">Convert</button>
+        <button onclick="copyToClipboard('commaOutput')">Copy Output</button>
+        <button onclick="toggleLivePreview('commaToLine')">Toggle Live Preview</button>
+        <p id="livePreviewStatus-commaToLine">Live Preview: OFF</p>
+        <div id="commaOutput" style="white-space: pre-wrap;"></div>
+        <p id="wordCount3">Word Count: 0</p>
+    </div>
+    <!-- Section: Text Transformation -->
+    <div>
+        <h2>Text Transformation</h2>
+        <textarea id="secondInput" rows="10" cols="30" placeholder="Enter words here..."></textarea><br>
+        <div>
+            <label><input type="checkbox" id="caseUpper"> Uppercase</label>
+            <label><input type="checkbox" id="caseLower"> Lowercase</label>
+            <label><input type="checkbox" id="caseTitle"> Title Case (First letter capital)</label>
+        </div>
+        <div>
+            <label><input type="checkbox" id="sortAsc"> Sort Ascending</label>
+            <label><input type="checkbox" id="sortDesc"> Sort Descending</label>
+        </div>
+        <div>
+            <label><input type="checkbox" id="removeDuplicates"> Remove Duplicates</label>
+        </div>
+        <div>
+            <label for="prefix">Prefix:</label>
+            <input type="text" id="prefix" placeholder="Enter prefix">
+            <label for="suffix">Suffix:</label>
+            <input type="text" id="suffix" placeholder="Enter suffix">
+        </div>
+        
+        <div>
+            <label><input type="checkbox" id="findReplace"> Find and Replace</label>
+            <br>
+            <label for="findText">Find:</label>
+            <input type="text" id="findText" placeholder="Enter text to find">
+            <label for="replaceText">Replace with:</label>
+            <input type="text" id="replaceText" placeholder="Enter replacement text">
+        </div>
+
+        <!-- Trim -->
+        <div>
+            <label><input type="checkbox" id="trimText"> Trim Text</label>
+            <label><input type="radio" name="trimDirection" value="start" checked> Trim from Start</label>
+            <label><input type="radio" name="trimDirection" value="end"> Trim from End</label>
+            <label for="trimLength"><br>Trim to length:</label>
+            <input type="number" id="trimLength" min="0" placeholder="Number of characters">
+            
+        </div>
+        <button onclick="performActions()">Apply Actions</button>
+        <button onclick="copyToClipboard('secondOutput')">Copy Output</button>
+        <button onclick="toggleLivePreview('transform')">Toggle Live Preview</button>
+        <p id="livePreviewStatus-transform">Live Preview: OFF</p>
+        <div id="secondOutput" style="white-space: pre-wrap;"></div>
+        <p id="wordCount2">Word Count: 0</p>
+    </div>
+
+
+</body>
+
+</html>
