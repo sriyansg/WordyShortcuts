@@ -4,7 +4,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
 
 
+footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8; /* Optional: adds a background color */
+            border-top: 1px solid #ddd; /* Optional: adds a top border */
+        }
 
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #000; /* Optional: sets the color of the link */
+            text-decoration: none; /* Optional: removes underline from the link */
+        }
+
+        footer a:hover {
+            text-decoration: underline; /* Optional: underline on hover */
+        }
 /* Global Styles */
 body {
     margin: 0;
@@ -169,6 +187,25 @@ p {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #d35400;
+}
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f8f8; /* Optional: adds a background color */
+    border-top: 1px solid #ddd; /* Optional: adds a top border */
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+footer a {
+    color: #000; /* Optional: sets the color of the link */
+    text-decoration: none; /* Optional: removes underline from the link */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Optional: underline on hover */
 }
 
 /* Animations */
