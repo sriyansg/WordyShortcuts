@@ -5,7 +5,7 @@ Link for the website : https://sriyansg.github.io/WordyShortcuts/
 
 # WordyShortcuts
 
-**WordyShortcuts** is a handy web tool for quickly formatting for analysts using SQL query frequently. It's used for transforming and managing lists of words or phrases. It’s designed to help developers, content creators, students, and anyone who frequently works with word lists, making repetitive text manipulation tasks easy and efficient.
+**WordyShortcuts** is a handy web tool for quickly formatting for analysts using SQL queries frequently. It's used for transforming and managing lists of words or phrases. It’s designed to help developers, content creators, students, and anyone who frequently works with word lists, making repetitive text manipulation tasks easy and efficient.
 
 ## Use Case
 
